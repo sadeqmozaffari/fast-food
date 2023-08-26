@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "../axios";
 import Loader from "../Loader/loader";
-const CategoryList = () => {
+import SearchBar from "../SearchBar/searchBar";
+const CategoryList = ({ filterItems, searchItems }) => {
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState([]);
   useEffect(() => {
@@ -18,20 +19,27 @@ const CategoryList = () => {
       return <Loader />;
     }
     return (
-      <ul className="nav">
-        <li className="nav-item ">
-          <a className="nav-link" href="#">
-            همه فست فودها
-          </a>
-        </li>
-        {categories.map((item) => (
-          <li className="nav-item" key={item.id}>
+      <div className="ps-3 w-100 d-flex align-items-center justify-content-between gap-5">
+        <ul className="nav">
+          <li className="nav-item " onClick={() => filterItems()}>
             <a className="nav-link" href="#">
-              {item.name}
+              همه فست فودها
             </a>
           </li>
-        ))}
-      </ul>
+          {categories.map((item) => (
+            <li
+              className="nav-item"
+              key={item.id}
+              onClick={() => filterItems(item.id)}
+            >
+              <a className="nav-link" href="#">
+                {item.name}
+              </a>
+            </li>
+          ))}
+        </ul>
+        <SearchBar searchItems={searchItems} />
+      </div>
     );
   };
   return (
